@@ -71,14 +71,21 @@ us_maps_tabs = dbc.Card(
                             value="tests last week (per capita)",
                             children=[
                                 dcc.Tab(
-                                    label="Positive Cases Rate of Change",
+                                    label="Positive Cases ROC",
                                     value="positive cases rate of change (last 7 days average)",
                                     className="confirmed-us-map-tab",
                                     style=tab_style,
                                     selected_style=tab_selected_style,
                                 ),
                                 dcc.Tab(
-                                    label="Testing Per Capita (last ",
+                                    label="Positive % ROC",
+                                    value="positive case pct rate of change (last 7 days average)",
+                                    className="confirmed-us-map-tab",
+                                    style=tab_style,
+                                    selected_style=tab_selected_style,
+                                ),
+                                dcc.Tab(
+                                    label="Testing Per Capita (last 7) ",
                                     value="tests last week (per capita)",
                                     className="testing-us-map-tab",
                                     style=tab_style,
@@ -143,6 +150,52 @@ desktop_body = [
             className="middle-col-map-content",
             width=8
         )
-       ]
+       ],
+       no_gutters=True,
+       className="middle-map-new-content mt-3"
+    ),
+    # Chart Section
+    dbc.Row(
+        [
+            dbc.Col(
+                html.Div(
+                    dbc.Row(
+                        [
+                            # Chart 1
+                            dbc.Col(
+                                dbc.Card(
+                                    dbc.CardBody(
+                                        [
+                                            html.Div(
+                                                id = "existing-vs-new-chart-title",
+                                                className="bottom-chart-h1-title"
+                                            ),
+                                            html.Div(
+                                                "Since 1/22",
+                                                className="bottom-chart-h2-title"
+                                            ),
+                                            html.Div(
+                                                dcc.Loading(
+                                                    dcc.Graph(
+                                                        id="existing-vs-new",
+                                                        config={"responsive": False},
+                                                        style={"height": "20vh"},
+                                                        className="top-bottom-left-chart-figure"
+                                                    )
+                                                ),
+                                                id="chart-container"
+                                            )
+                                        ]
+                                    )
+                                ),
+                                className="top-bottom-left-chart",
+                                width=4,
+                            )
+                        ]
+                    )
+                ),
+            className="bottom-chart-row",
+            )
+        ]
     )
 ]

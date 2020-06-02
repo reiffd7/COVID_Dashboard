@@ -21,7 +21,7 @@ class StatesDataFrame(object):
         self.Clean()
         self.AddCalculatedFields()
         self.dates = self.df['date'].unique()
-        self.states = self.df['state'].unique()
+        self.states = sorted(list(self.df['state'].unique()))
         self.BASIC_COLS = ['date', 'state', 'new positive cases']
         self.COVID_METRICS = ['positive', 'negative', 'death', 'new positive cases', 'new negative cases', 
                         'new positive cases (last 7 days)','new negative cases (last 7 days)', 'tests last week',	
@@ -60,7 +60,7 @@ class StatesDataFrame(object):
         self.df['date'] = pd.to_datetime(self.df['date'].apply(lambda x: str(x).split('T')[0]))
         # self.df = self.df[self.df['date'] >= '2020-04-01']
         # self.dfLeaderboard = self.df[['date', 'state', 'slope_lastWeekAvg', 'positiveRateChange_smooth', 'testsRate_smooth']]
-        self.df.sort_values(by='date', inplace=True)
+        self.df.sort_values(by=['date', 'state'], inplace=True)
         # if state_filter:
         #     self.df = self.df[self.df['state'].isin(states)]
         #     self.dfLeaderboard = self.dfLeaderboard[self.dfLeaderboard['state'].isin(states)]

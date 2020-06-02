@@ -7,7 +7,7 @@ import requests
 import sys
 sys.path.append('../')
 from utils import StatesDataFrame, COORDS
-from components import choropleth_mapbox, stats_table
+from components import choropleth_mapbox, stats_table, existing_vs_new_chart
 
 statesJSON = requests.get('https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/us-states.json').json()
 
@@ -41,8 +41,8 @@ def register_desktop_callbacks(app):
                 {"name": "Date", "id": "Date"},
                 {"name": "State", "id": "State", "format": Format(group=",")},
                 {
-                    "name": 'Confirmed Last Week',
-                    "id": 'Confirmed Last Week',
+                    "name": 'Confirmed (Last 7)',
+                    "id": 'Confirmed (Last 7)',
                     "type": "numeric",
                     "format": Format(group=",")
                 }
@@ -53,7 +53,7 @@ def register_desktop_callbacks(app):
             sort_mode="multi",
             column_selectable="single",
             style_as_list_view=True,
-            fixed_rows={"headers": True},
+            # fixed_rows={"headers": True},
             fill_width=True,
             style_table={
                 "width": "100%",
@@ -64,6 +64,8 @@ def register_desktop_callbacks(app):
                 "fontWeight": "bold",
                 "font": "Lato, sans-serif",
                 "height": "2vw",
+                "width": "100%",
+                "fill_width": True
             },
             style_cell={
                 "font-size": font_size_body,
@@ -97,6 +99,26 @@ def register_desktop_callbacks(app):
             ]
         )
         return table
+
+
+    @app.callback(
+        [Output("existing-vs-new", "figure")],
+        [Input("state_picker", "value")]
+    )
+    def existing_vs_new_chart_callback(state):
+        fig = existing_vs_new_chart(state)
+        return [fig]
+
+
+    @app.callback(
+    [Output("existing-vs-new-chart-title", "children")],
+    [Input("state_picker", "value")],
+    )                                                   # pylint: disable=W0612
+    def confirmed_cases_chart_title_callback(state="United States"):
+        if state == "United States":
+            return ["U.S. Existing vs. New Cases"]
+
+        return ["{} Existing vs. New Cases".format(state)]
 
 
 
