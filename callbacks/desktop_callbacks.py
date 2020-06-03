@@ -7,7 +7,7 @@ import requests
 import sys
 sys.path.append('../')
 from utils import StatesDataFrame, COORDS
-from components import choropleth_mapbox, stats_table, existing_vs_new_chart
+from components import choropleth_mapbox, stats_table, existing_vs_new_chart, testing_per_capita_chart, positive_pct_chart, daily_stats
 
 statesJSON = requests.get('https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/us-states.json').json()
 
@@ -121,6 +121,55 @@ def register_desktop_callbacks(app):
         return ["{} Existing vs. New Cases".format(state)]
 
 
+    @app.callback(
+        [Output("testing-per-capita", "figure")],
+        [Input("state_picker", "value")]
+    )
+    def testing_per_capita_chart_callback(state):
+        fig = testing_per_capita_chart(state)
+        return [fig]
+
+
+    @app.callback(
+    [Output("testing-per-capita-chart-title", "children")],
+    [Input("state_picker", "value")],
+    )                                                   # pylint: disable=W0612
+    def testing_per_capita_chart_title_callback(state="United States"):
+        if state == "United States":
+            return ["U.S. Testing Per Capita"]
+
+        return ["{} Testing Per Capita".format(state)]
+
+
+    @app.callback(
+        [Output("positive-pct", "figure")],
+        [Input("state_picker", "value")]
+    )
+    def positive_pct_chart_callback(state):
+        fig = positive_pct_chart(state)
+        return [fig]
+
+
+    @app.callback(
+    [Output("positive-pct-chart-title", "children")],
+    [Input("state_picker", "value")],
+    )                                                   # pylint: disable=W0612
+    def positive_pct_chart_title_callback(state="United States"):
+        if state == "United States":
+            return ["U.S. Positive %"]
+
+        return ["{} Positive %".format(state)]
+
+
+
+    @app.callback(
+        [Output("daily-stats", "children")],
+        [Input("state_picker", "value")]
+    )
+    def update_output(state):
+        cards = daily_stats(state)
+
+        return [cards]
 
 
        

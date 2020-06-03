@@ -136,6 +136,11 @@ desktop_body = [
                 ),
                 className="states-dropdown-container",
                 width=2
+            ),
+            dbc.Col(
+                dbc.Row(id="daily-stats", className="top-bar-content"),
+                width=10,
+                className="top-bar-content-col"
             )
         ]
     ),
@@ -190,7 +195,67 @@ desktop_body = [
                                 ),
                                 className="top-bottom-left-chart",
                                 width=4,
-                            )
+                            ),
+                            # Chart 2
+                            dbc.Col(
+                                dbc.Card(
+                                    dbc.CardBody(
+                                        [
+                                            html.Div(
+                                                id = "testing-per-capita-chart-title",
+                                                className="bottom-chart-h1-title"
+                                            ),
+                                            html.Div(
+                                                "# of tests (last 7 days) divided by population",
+                                                className="bottom-chart-h2-title"
+                                            ),
+                                            html.Div(
+                                                dcc.Loading(
+                                                    dcc.Graph(
+                                                        id="testing-per-capita",
+                                                        config={"responsive": False},
+                                                        style={"height": "20vh"},
+                                                        className="top-bottom-mid-chart-figure"
+                                                    )
+                                                ),
+                                                id="chart-container"
+                                            )
+                                        ]
+                                    )
+                                ),
+                                className="top-bottom-mid-chart",
+                                width=4,
+                            ),
+                            # Chart 3
+                            dbc.Col(
+                                dbc.Card(
+                                    dbc.CardBody(
+                                        [
+                                            html.Div(
+                                                id = "positive-pct-chart-title",
+                                                className="bottom-chart-h1-title"
+                                            ),
+                                            html.Div(
+                                                "# of tests (last 7 days) divided by population",
+                                                className="bottom-chart-h2-title"
+                                            ),
+                                            html.Div(
+                                                dcc.Loading(
+                                                    dcc.Graph(
+                                                        id="positive-pct",
+                                                        config={"responsive": False},
+                                                        style={"height": "20vh"},
+                                                        className="top-right-mid-chart-figure"
+                                                    )
+                                                ),
+                                                id="chart-container"
+                                            )
+                                        ]
+                                    )
+                                ),
+                                className="top-bottom-right-chart",
+                                width=4,
+                            ),
                         ]
                     )
                 ),
