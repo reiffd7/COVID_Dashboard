@@ -6,7 +6,7 @@ import requests
 
 import sys
 sys.path.append('../')
-from utils import StatesDataFrame, COORDS
+from utils import StatesDataFrame, COORDS, cosine_sim
 from components import choropleth_mapbox, stats_table, existing_vs_new_chart, testing_per_capita_chart, positive_pct_chart, daily_stats
 
 statesJSON = requests.get('https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/us-states.json').json()
@@ -99,6 +99,79 @@ def register_desktop_callbacks(app):
             ]
         )
         return table
+
+
+    @app.callback(
+        Output("sim-table", "children"),
+        [Input("state_picker", "value")]
+    )
+    def sim_tab_content(state):
+        if state == 'United States':
+            return None
+        else:
+            df = cosine_sim(state)
+            df = df.reset_index().drop(columns=['index']).reset_index()
+            df['index'] = df['index'] +1
+            df.drop(columns=['similarity'], inplace=True)
+            df.rename(columns={'index': 'rank'}, inplace=True)
+            # font_size_heading = ".4vh"
+            font_size_body = ".9vw"
+            table = dash_table.DataTable(
+                data=df.to_dict("records"),
+                columns=[
+                    {"name": "rank", "id": "rank", "type": "numeric"},
+                    {
+                        "name": 'state',
+                        "id": 'state',
+                        "format": Format(group=",")
+                    }
+                    
+                ],
+                editable=False,
+                sort_action="native",
+                sort_mode="multi",
+                column_selectable="single",
+                style_as_list_view=True,
+                # fixed_rows={"headers": True},
+                # fill_width=True,
+                style_table={
+                    "width": "75%",
+                    "height": "100vh"},
+                style_header={
+                    "backgroundColor": color_bg,
+                    "border": color_bg,
+                    "fontWeight": "bold",
+                    "font": "Lato, sans-serif",
+                    "height": "2vw",
+                    "width": "75%"
+                },
+                style_cell={
+                    "font-size": font_size_body,
+                    "font-family": "Lato, sans-serif",
+                    "border-bottom": "0.01rem solid #313841",
+                    "backgroundColor": "#010915",
+                    "color": "#FEFEFE",
+                    "height": "2.75vw",
+                },
+                style_cell_conditional=[
+                    {
+                        "if": {"column_id": "rank",},
+                        "minWidth": "3vw",
+                        "width": "3vw",
+                        "maxWidth": "3vw",
+                    },
+                    {
+                        "if": {"column_id": "state",},
+                        "color": "#E55465",
+                        "minWidth": "3vw",
+                        "width": "3vw",
+                        "maxWidth": "3vw",
+                    },
+                ]
+            )
+            return table
+
+    
 
 
     @app.callback(

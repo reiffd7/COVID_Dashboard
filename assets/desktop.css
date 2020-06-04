@@ -29,7 +29,8 @@
     --background-color-dropdown-hover: ;
     
     /* Body Background Color */
-    --body-bg-color: #19202A;
+    /* --body-bg-color: #19202A; */
+    --body-bg-color: #502400;
 
     /* Font Sizes */
     --font-size-nav-title: 3.7vh;
@@ -197,6 +198,7 @@
     padding: 0 2.5%;
     padding-top: 7.5vh;
     margin: 0 !important;
+    background-color: var(--body-bg-color);
 }
 
 /* First Row */
@@ -258,6 +260,7 @@
     font-weight: 500;
     border-radius: var(--drop-down-rounded-corners);
     color:var(--nav-font-color);
+    background-color: var(--card-bg-color);
 }
 
 

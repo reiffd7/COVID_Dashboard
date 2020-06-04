@@ -53,6 +53,24 @@ stats_tabs = dbc.Card(
 )
 
 
+########################################################################
+#
+#                       Confirm/Death Table
+#
+########################################################################
+sim_tabs = dbc.Card(
+    [
+        dbc.CardBody(id="sim-table", className="stats-table-col",),
+        dbc.CardFooter(  # html.P(
+            f"Last Updated {str(last_updated).upper()}",
+            className="right-tabs-last-updated-text",
+        ),
+    ],
+    className="stats-table-div",
+)
+
+
+
 
 ########################################################################
 #
@@ -154,6 +172,10 @@ desktop_body = [
             html.Div(us_maps_tabs),
             className="middle-col-map-content",
             width=8
+        ),
+        # Sim table
+        dbc.Col(
+            sim_tabs, className="right-col-stats-content", width=2
         )
        ],
        no_gutters=True,

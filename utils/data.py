@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import json
+from sklearn.metrics.pairwise import cosine_similarity
+
 
 
 with open('web_scraping/states.json', 'r') as f:
@@ -49,7 +51,7 @@ class StatesDataFrame(object):
         self.df['testing rate of change (last 7 days average)'] = self.df.groupby(['state', 'fips'])['testing rate of change'].apply(lambda x: x.rolling(7, min_periods=0).mean()).fillna(0)
         self.df['positive case pct'] = self.df['new positive cases (last 7 days)']/self.df['tests last week']
         self.df['positive case pct (last 7 days average)'] = self.df.groupby(['state', 'fips'])['positive case pct'].apply(lambda x: x.rolling(7, min_periods=0).mean()).fillna(0)
-        self.df['zero'] = 0.0
+        # self.df['zero'] = 0.0
         self.df['positive case pct rate of change'] = (self.df['positive case pct'] - self.df.groupby(['state', 'fips'])['positive case pct'].diff(1).fillna(0))/(self.df.groupby(['state', 'fips'])['positive case pct'].diff(1).fillna(0))
         self.df['positive case pct rate of change (last 7 days average)'] = self.df.groupby(['state', 'fips'])['positive case pct rate of change'].apply(lambda x: x.rolling(7, min_periods=0).mean()).fillna(0)
         self.df['positive cases rate of change'] = (self.df['new positive cases (last 7 days)'] - self.df.groupby(['state', 'fips'])['new positive cases (last 7 days)'].shift(1))/(self.df['positive'] - self.df.groupby(['state', 'fips'])['positive'].shift(1)).fillna(0)
@@ -67,6 +69,10 @@ class StatesDataFrame(object):
 
 STATE_LABELS = [{'label': i, 'value': i} for i in StatesDataFrame().states]
 STATE_LABELS.insert(0, {'label': 'United States', 'value': 'United States'})
+
+
+# def cosine_similarity(state):
+#     df = StatesDataFrame().df
 
 
 
@@ -126,3 +132,19 @@ COORDS = {"AL": {"lat": 32.806671, "long": -86.79113},
 
 
 
+def cosine_sim(state):
+    df = StatesDataFrame().df
+    df = df.fillna(0)
+    df = df[df['date'] == max(df['date'])]
+    df.drop(columns=['index', 'date', 'fips'], inplace=True)
+    df = df.set_index('state')
+    sim_list = []
+    states = df.index.to_numpy()
+    a = df.loc[state].to_numpy()
+    for stateB in states:
+        b = df.loc[stateB].to_numpy()
+        similarity = cosine_similarity(a.reshape(1, -1), b.reshape(1, -1))
+        if stateB != state:
+            entry = {'state': stateB, 'similarity': similarity[0][0]}
+            sim_list.append(entry)
+    return pd.DataFrame(sim_list).sort_values(by='similarity', ascending=False)
