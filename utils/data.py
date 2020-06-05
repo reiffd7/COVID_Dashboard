@@ -44,6 +44,7 @@ class StatesDataFrame(object):
         self.df['new positive cases'] = self.df.groupby(['state', 'fips'])['positive'].diff(1).fillna(0)
         self.df['new negative cases'] = self.df.groupby(['state', 'fips'])['negative'].diff(1).fillna(0)
         self.df['new positive cases (last 7 days)'] = self.df.groupby(['state', 'fips'])['new positive cases'].apply(lambda x: x.rolling(7, min_periods=0).sum())
+        self.df['new positive (per capita)'] = self.df.apply(lambda x: x['new positive cases (last 7 days)']/statePops[stateAbbrevs[x['state']]], axis=1)
         self.df['new negative cases (last 7 days)'] = self.df.groupby(['state', 'fips'])['new negative cases'].apply(lambda x: x.rolling(7, min_periods=0).sum())
         self.df['tests last week'] = self.df['new positive cases (last 7 days)'] + self.df['new negative cases (last 7 days)']
         self.df['tests last week (per capita)'] = self.df.apply(lambda x: x['tests last week']/statePops[stateAbbrevs[x['state']]], axis=1)
@@ -137,14 +138,24 @@ def cosine_sim(state):
     df = df.fillna(0)
     df = df[df['date'] == max(df['date'])]
     df.drop(columns=['index', 'date', 'fips'], inplace=True)
+    df = df[['state','new positive (per capita)', 'tests last week (per capita)', 
+    'testing rate of change (last 7 days average)', 'positive case pct rate of change (last 7 days average)',
+    'positive cases rate of change (last 7 days average)']]
     df = df.set_index('state')
     sim_list = []
     states = df.index.to_numpy()
-    a = df.loc[state].to_numpy()
+    a = df.loc[state].fillna(0).to_numpy()
     for stateB in states:
-        b = df.loc[stateB].to_numpy()
-        similarity = cosine_similarity(a.reshape(1, -1), b.reshape(1, -1))
-        if stateB != state:
-            entry = {'state': stateB, 'similarity': similarity[0][0]}
-            sim_list.append(entry)
-    return pd.DataFrame(sim_list).sort_values(by='similarity', ascending=False)
+        b = df.loc[stateB].fillna(0).to_numpy()
+        try:
+            similarity = cosine_similarity(a.reshape(1, -1), b.reshape(1, -1))
+            if stateB != state:
+                entry = {'state': stateB, 'similarity': similarity[0][0]}
+                sim_list.append(entry)
+        except:
+            print(stateB)
+    simDf = pd.DataFrame(sim_list).sort_values(by='similarity', ascending=False)
+    return simDf.head(10)
+
+
+StateFlags = {k: 'https://www.nationsonline.org/flags_big/{}_state_flag.jpg'.format(v.replace(' ', '_')) for k,v in stateAbbrevs.items()}

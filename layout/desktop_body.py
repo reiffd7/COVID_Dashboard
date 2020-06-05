@@ -144,17 +144,19 @@ desktop_body = [
     dbc.Row(
         [
             dbc.Col(
-                dcc.Dropdown(
+                html.Div(
+                [dcc.Dropdown(
                     id="state_picker",
                     options=STATE_LABELS,
                     value="United States",
                     clearable=False,
                     searchable=False,
-                    className="states-dropdown",
+                    className="states-dropdown"
+                ),
+                html.Img(id="flag", style={'height':'30%', 'width':'30%', 'padding-left': '.5vw'})],
                 ),
                 className="states-dropdown-container",
-                width=2
-            ),
+                width=2),
             dbc.Col(
                 dbc.Row(id="daily-stats", className="top-bar-content"),
                 width=10,

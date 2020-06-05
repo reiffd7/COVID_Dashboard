@@ -6,7 +6,7 @@ import requests
 
 import sys
 sys.path.append('../')
-from utils import StatesDataFrame, COORDS, cosine_sim
+from utils import StatesDataFrame, COORDS, cosine_sim, StateFlags
 from components import choropleth_mapbox, stats_table, existing_vs_new_chart, testing_per_capita_chart, positive_pct_chart, daily_stats
 
 statesJSON = requests.get('https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/us-states.json').json()
@@ -18,6 +18,15 @@ color_inactive = "#AEAEAE"
 color_bg = "#010914"
 
 def register_desktop_callbacks(app):
+    @app.callback(
+        Output('flag', 'src'),
+        [Input("state_picker", "value")])
+    def get_flag(state):
+        if state == 'United States':
+            return 'https://www.nationsonline.org/flags_big/United_States_lgflag.gif'
+        else:
+            return StateFlags[state]
+
     @app.callback(
         Output('choropleth', 'figure'),
         [Input('state_picker', 'value'),
