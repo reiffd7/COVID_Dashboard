@@ -177,7 +177,8 @@ desktop_body = [
         ),
         # Sim table
         dbc.Col(
-            sim_tabs, className="right-col-stats-content", width=2
+            html.Div(
+            [sim_tabs, html.A("Explore State Clustering", href='/cluster')], className="right-col-stats-content"), width=2
         )
        ],
        no_gutters=True,

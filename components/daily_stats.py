@@ -96,7 +96,7 @@ def daily_stats(state="US"):
                     className=f"top-bar-card-tested"
                 ),
                 width=3,
-                className="top-bar-card-body"
+                className="top-bar-card-body-skinny"
             )
             cards.append(card)
 

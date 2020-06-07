@@ -30,7 +30,7 @@
     
     /* Body Background Color */
     /* --body-bg-color: #19202A; */
-    --body-bg-color: #502400;
+    --body-bg-color: #F2F4F3;
 
     /* Font Sizes */
     --font-size-nav-title: 3.7vh;
@@ -404,9 +404,20 @@
     padding: 0;
 }
 
+.top-bar-card-body-skinny .card-body {
+    background-color: var(--body-bg-color);
+    padding: 0;
+}
+
 .top-bar-card-body {
     padding-left: 12px;
     padding-right: 12px;
+    box-shadow: none;
+}
+
+.top-bar-card-body-skinny {
+    padding-left: 7px;
+    padding-right: 7px;
     box-shadow: none;
 }
 
