@@ -1,7 +1,8 @@
 
 dash==1.1.1
-dash-core-components==1.1.1
-dash-html-components==1.0.0
+dash_core_components==1.1.1
+dash_html_components==1.0.0
+dash_bootstrap_components
 dash-renderer==1.0.0
 dash-table==4.1.0
 sklearn
