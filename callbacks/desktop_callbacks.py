@@ -15,7 +15,7 @@ statesJSON = requests.get('https://raw.githubusercontent.com/python-visualizatio
 font_size = ".9vw"
 color_active = "#F4F4F4"
 color_inactive = "#AEAEAE"
-color_bg = "#010914"
+color_bg = "#2B2118"
 
 def register_desktop_callbacks(app):
     @app.callback(
@@ -65,8 +65,10 @@ def register_desktop_callbacks(app):
             # fixed_rows={"headers": True},
             fill_width=True,
             style_table={
+                "backgroundColor": color_bg,
                 "width": "100%",
                 "height": "100vh"},
+                
             style_header={
                 "backgroundColor": color_bg,
                 "border": color_bg,
@@ -80,7 +82,7 @@ def register_desktop_callbacks(app):
                 "font-size": font_size_body,
                 "font-family": "Lato, sans-serif",
                 "border-bottom": "0.01rem solid #313841",
-                "backgroundColor": "#010915",
+                "backgroundColor": color_bg,
                 "color": "#FEFEFE",
                 "height": "2.75vw",
             },
@@ -158,7 +160,7 @@ def register_desktop_callbacks(app):
                     "font-size": font_size_body,
                     "font-family": "Lato, sans-serif",
                     "border-bottom": "0.01rem solid #313841",
-                    "backgroundColor": "#010915",
+                    "backgroundColor": color_bg,
                     "color": "#FEFEFE",
                     "height": "2.75vw",
                 },

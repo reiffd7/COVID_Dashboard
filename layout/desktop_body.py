@@ -16,7 +16,7 @@ from components import stats_table
 font_size = ".9vw"
 color_active = "#F4F4F4"
 color_inactive = "#AEAEAE"
-color_bg = "#010914"
+color_bg = "#2B2118"
 
 tabs_styles = {
     "flex-direction": "row",
@@ -62,7 +62,7 @@ sim_tabs = dbc.Card(
     [
         dbc.CardBody(id="sim-table", className="stats-table-col",),
         dbc.CardFooter(  # html.P(
-            f"Last Updated {str(last_updated).upper()}",
+            html.A("Explore Cluster Plots", href='/cluster'),
             className="right-tabs-last-updated-text",
         ),
     ],
@@ -114,7 +114,7 @@ us_maps_tabs = dbc.Card(
                             colors={
                                 "border": None,
                                 "primary": None,
-                                "background": None,
+                                "background": color_bg,
                             },
                         )
                     ),
@@ -128,7 +128,8 @@ us_maps_tabs = dbc.Card(
                 ),
                 id="map-container",
             ),
-        ]
+        ],
+        style={'backgroundColor': color_bg}
     ),
 )
 
@@ -144,8 +145,7 @@ desktop_body = [
     dbc.Row(
         [
             dbc.Col(
-                html.Div(
-                [dcc.Dropdown(
+                dcc.Dropdown(
                     id="state_picker",
                     options=STATE_LABELS,
                     value="United States",
@@ -153,16 +153,18 @@ desktop_body = [
                     searchable=False,
                     className="states-dropdown"
                 ),
-                html.Img(id="flag", style={'height':'30%', 'width':'30%', 'padding-left': '.5vw'})],
-                ),
                 className="states-dropdown-container",
                 width=2),
             dbc.Col(
+                html.Img(id="flag", style={'height':'80%', 'width':'80%'}),
+                width=2
+            )]),
+    dbc.Row(
+            dbc.Col(
                 dbc.Row(id="daily-stats", className="top-bar-content"),
-                width=10,
-                className="top-bar-content-col"
+                width=12,
+                className="middle-map-new-content mt-3"
             )
-        ]
     ),
     dbc.Row(
        [ # Stats col
@@ -177,8 +179,9 @@ desktop_body = [
         ),
         # Sim table
         dbc.Col(
-            html.Div(
-            [sim_tabs, html.A("Explore State Clustering", href='/cluster')], className="right-col-stats-content"), width=2
+            html.Div(sim_tabs), 
+            className="right-col-stats-content", 
+            width=2
         )
        ],
        no_gutters=True,

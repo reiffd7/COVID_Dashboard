@@ -12,17 +12,17 @@
     /* --minimum-screen-size: 860px; */
 
     /* Nav Colors */
-    --nav-bg-color:#010915;
+    --nav-bg-color:#2B2118;
     --nav-font-color:#FEFEFE;
 
     /* Font Colors */
-    --font-color-tested:#AEAEAE;
-    --font-color-confirmed:#F4B000;
+    --font-color-tested:#242F40;
+    --font-color-confirmed:#CCA43B;
     --font-color-deaths:#E55465;
     --font-color-deathrate:#DD1E34;
 
     /* Card Colors */
-    --card-bg-color:#010915;
+    --card-bg-color:#2B2118;
     --card-font-color:#F4F4F4;
 
     /* Highlight Colors */
@@ -30,7 +30,7 @@
     
     /* Body Background Color */
     /* --body-bg-color: #19202A; */
-    --body-bg-color: #F2F4F3;
+    --body-bg-color: #242F40;
 
     /* Font Sizes */
     --font-size-nav-title: 3.7vh;
@@ -78,11 +78,12 @@
     --daily-stats-font-family: 'Lato', sans-serif; 
     --daily-stats-font-weight: 700;
     --font-weight-daily-stats-category: 700;
+    --daily-stats-bg-color: #E8F7EE;
 
 
     /* Drop Down Selectors */
     --drop-down-hover-color: #40495B;
-    --drop-down-bg-color:#1F242D;
+    --drop-down-bg-color:#B3B6B7;
     --drop-down-border-color:#f4f4f4;
     --drop-down-rounded-corners: 7px;
 }
@@ -205,6 +206,7 @@
 .states-dropdown-container  {
     /* margin: 2.5vh 0; */
     margin: 0;
+    /* padding: 0 .75vw 0 .75vw; */
     /* padding-bottom: 1vh; */
 }
 
@@ -252,20 +254,21 @@
     justify-content: center;
     align-items: center;
     padding-right: 0;
+    padding-left: 3;
+    flex: 0 0 20.49%;
     font-family: var(--daily-stats-font-family);
     font-size: var(--font-size-state-name);
-    max-width: 23%;
+    max-width: 50%;
     /* width: 37vw; */
-    flex: 0 0 23%;
     font-weight: 500;
     border-radius: var(--drop-down-rounded-corners);
     color:var(--nav-font-color);
-    background-color: var(--card-bg-color);
+    /* background-color: var(--card-bg-color); */
 }
 
 
 #states-dropdown {
-    width: 100%;
+    width: 50%;
     line-height: .7;
 }
 
@@ -391,7 +394,7 @@
 /* ------------------------------------------------------------------------------ */
 
 .top-bar-content-col {
-    max-width: 75%;
+    max-width: 100%;
 }
 
 .top-bar-content.row .card-body {
@@ -416,21 +419,23 @@
 }
 
 .top-bar-card-body-skinny {
-    padding-left: 7px;
-    padding-right: 7px;
+    padding-left: 2px;
+    padding-right: 2px;
     box-shadow: none;
 }
 
 .top-bar-content .card-text {
     font-weight: var(--font-weight-daily-stats-category);
     margin-top: -.5vw;
+    background-color: var(--daily-stats-bg-color);
+
 }
 
 .top-bar-card-tested {
     color: var(--font-color-tested);
     font-size: var(--font-size-card-category);
     border-radius: var(--border-radius);
-    background-color: transparent;
+    background-color: var(--daily-stats-bg-color);
     border: none;
     text-align: center;
     padding: .2rem; 
@@ -448,6 +453,8 @@
     font-size: var(--font-size-card-value);
     font-family: var(--daily-stats-font-family);
     text-shadow: none;
+    background-color: var(--daily-stats-bg-color);
+
 }
 
 .top-bar-card-confirmed {
@@ -455,7 +462,7 @@
     font-size: var(--font-size-card-category);
     border-radius: var(--border-radius);
     text-align: center;
-    background-color: transparent;
+    background-color: var(--daily-stats-bg-color);
     border: none;
     padding: .2rem;
 }
@@ -470,6 +477,8 @@
     font-weight: var(--daily-stats-font-weight);
     font-size: var(--font-size-card-value);
     text-shadow: none;
+    background-color: var(--daily-stats-bg-color);
+
     
 }
 
@@ -524,12 +533,17 @@
     color: #19202A;
     margin-top: -.7rem;
     font-size: var(--font-size-card-perc-change);
+    background-color: var(--daily-stats-bg-color);
+
 }
 
 .top-bar-perc-change-confirmed {
-    color: #BDBDBD;
-    margin-top: -.7rem;
+    color: #242F40;
+    /* margin-top: -.7rem; */
+    font-weight: var(--font-weight-daily-stats-category);
     font-size: var(--font-size-card-perc-change);
+    background-color: transparent;
+
 }
 
 .top-bar-perc-change-deaths {
@@ -589,6 +603,8 @@
     padding-left: 3vh !important;
     padding-right: 3vh !important;
 }
+
+
 
 
 .card-header-tabs{
@@ -951,7 +967,7 @@
     padding 1vh 0 1vh 0;
     margin: 0;
     font-size: var(--font-size-last-updated);
-    background: #010915;
+    background: #2B2118;
 }
 
 .right-tabs-last-updated-text.card-footer {

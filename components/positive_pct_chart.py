@@ -59,7 +59,7 @@ def positive_pct_chart(state="US"):
             y=ys,
             text = data['date'],
             name="Positive pct",
-            line={"color": "#6822D3"},
+            line={"color": "#F2D492"},
             customdata = [human_percentage(x) for x in data['positive case pct (last 7 days average)'].to_numpy()],
             hovertemplate=template_new
 

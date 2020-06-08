@@ -7,6 +7,8 @@ import sys
 sys.path.append('../')
 from utils import StatesDataFrame
 
+GREEN = '#0CCE6B'
+RED = '#B76D68'
 
 def get_daily_stats(state="US"):
     df = StatesDataFrame().df
@@ -25,19 +27,19 @@ def get_daily_stats(state="US"):
     new_positives = int(data['new positive cases'].to_numpy()[0])
     positive_case_roc = data['positive cases rate of change (last 7 days average)'].to_numpy()[0]
     if positive_case_roc > 0.0:
-        positive_case_color = "Red"
+        positive_case_color = RED
     elif positive_case_roc < 0.0:
-        positive_case_color = "Green"
+        positive_case_color = GREEN
     positive_pct_roc = data['positive case pct rate of change (last 7 days average)'].to_numpy()[0]
     if positive_pct_roc > 0.0:
-        positive_pct_color = "Red"
+        positive_pct_color = RED
     elif positive_pct_roc < 0.0:
-        positive_pct_color = "Green"
+        positive_pct_color = GREEN
     testing_roc = data['testing rate of change (last 7 days average)'].to_numpy()[0]
     if testing_roc > 0.0:
-        testing_color = "Green"
+        testing_color = GREEN
     elif testing_roc < 0.0:
-        testing_color = "Red"
+        testing_color = RED
     stats = {
         'Positive Cases': [positives, new_positives],
         'Existing vs. New Rate of Change': [round(positive_case_roc, 2), positive_case_color],
@@ -72,7 +74,7 @@ def daily_stats(state="US"):
                     className=f"top-bar-card-confirmed"
                 ),
                 width=3,
-                className="top-bar-card-body"
+                className="top-bar-card-body-skinny"
             )
             cards.append(card)
         
@@ -81,7 +83,10 @@ def daily_stats(state="US"):
                 dbc.Col(
                     dbc.CardBody(
                         [
-                            html.Br(),
+                            html.P(
+                                "~",
+                                className=f"top-bar-perc-change-confirmed",
+                            ),
                             html.H1(
                                 f"{value[0]}",
                                 className=f"top-bar-value-tested",

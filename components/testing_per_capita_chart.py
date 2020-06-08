@@ -54,7 +54,7 @@ def testing_per_capita_chart(state="US"):
             y=ys,
             text = data['date'],
             name="Existing vs. New Cases",
-            line={"color": "#2255D3"},
+            line={"color": "#0090C1"},
             customdata = [human_format(x) for x in data['tests last week'].to_numpy()],
             hovertemplate=template_new
 

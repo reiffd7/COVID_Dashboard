@@ -53,7 +53,7 @@ def existing_vs_new_chart(state="US"):
             y=ys,
             text = data['date'],
             name="Existing vs. New Cases",
-            line={"color": "#F4B000"},
+            line={"color": "#A5B452"},
             customdata = [human_format(x) for x in data['new positive cases (last 7 days)'].to_numpy()],
             hovertemplate=template_new
 
@@ -66,7 +66,7 @@ def existing_vs_new_chart(state="US"):
             mode="lines",
             text = None,
             name="Exponential Growth",
-            line= dict(color='red', dash='dash'),
+            line= dict(color='#941B0C', dash='dash'),
             
 
         )
