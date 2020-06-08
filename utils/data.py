@@ -69,7 +69,7 @@ class StatesDataFrame(object):
         #     self.dfLeaderboard = self.dfLeaderboard[self.dfLeaderboard['state'].isin(states)]
 
 STATE_LABELS = [{'label': i, 'value': i} for i in StatesDataFrame().states]
-STATE_LABELS.insert(0, {'label': 'United States', 'value': 'United States'})
+STATE_LABELS.insert(0, {'label': 'U.S.', 'value': 'United States'})
 
 
 # def cosine_similarity(state):

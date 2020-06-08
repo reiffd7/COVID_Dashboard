@@ -9,12 +9,12 @@ build_desktop_layout = html.Div(
             id="url",
             refresh=False,
         ),
-        # dbc.Navbar(
-        #     id="navbar-content",
-        #     color="#010915",
-        #     dark=True,
-        #     className="desktop-navbar",
-        # ),
+        dbc.Navbar(
+            id="navbar-content",
+            color="#010915",
+            dark=True,
+            className="desktop-navbar",
+        ),
         dbc.Container(
             id="page-content",
             className="mt-4 desktop",

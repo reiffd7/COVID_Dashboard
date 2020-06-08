@@ -24,6 +24,7 @@
     /* Card Colors */
     --card-bg-color:#2B2118;
     --card-font-color:#F4F4F4;
+    --states-card-bg-color: #38AECC;
 
     /* Highlight Colors */
     --background-color-dropdown-hover: ;
@@ -258,7 +259,7 @@
     flex: 0 0 20.49%;
     font-family: var(--daily-stats-font-family);
     font-size: var(--font-size-state-name);
-    max-width: 50%;
+    max-width: 20%;
     /* width: 37vw; */
     font-weight: 500;
     border-radius: var(--drop-down-rounded-corners);
@@ -268,7 +269,8 @@
 
 
 #states-dropdown {
-    width: 50%;
+    width: 20%;
+    background-color: var(--states-card-bg-color);
     line-height: .7;
 }
 
@@ -278,56 +280,70 @@
 }
 
 #states-dropdown .Select-input {
-    background-color: transparent !important;
+    background-color: var(--states-card-bg-color);
     display: inline !important;
     padding-left: .2vw;
     padding-right: .2vw;
+    
 }
 
 .states-dropdown .Select-control {
-    background-color: transparent !important;
+    background-color: var(--states-card-bg-color);
     border-color: transparent;
     overflow: auto;
     box-shadow: none !important;
     border-color: transparent !important;
-    display: inline !important;
+    /* display: inline !important; */
+    font-size: 2rem;
+    max-width: 15%;
+    margin-bottom: auto;
 }
 
 .states-dropdown .Select-multi-value-wrapper {
     display: inline !important;
+    background-color: var(--states-card-bg-color);
+
 }
 
 .states-dropdown .Select-multi-value-wrapper .Select-value {
     display: inline !important;
     position: unset !important;
+    background-color: var(--states-card-bg-color);
+
 }
 
 
 .states-dropdown .Select-value-label {
     display: inline !important;
-    position: unset !important;
+    position: unset !important; 
+    background-color: var(--states-card-bg-color);
 }
 
 #states-dropdown .Select.states-dropdown {
     /* width: 100vw; */
+    background-color: var(--states-card-bg-color);
 }
 
 .states-dropdown .Select-menu-outer {
-    background-color: var(--drop-down-bg-color);
+    background-color: var(--states-card-bg-color);
     border-color: transparent;
-    font-size: var(--font-size-dropdown-arrow);
+    font-size: 1rem;
     z-index: 1000000;
-    width:91%;
-    margin-top: 5%;
+    width:20%;
+    /* margin-top: 5%; */
 }
 
 .states-dropdown .Select-control .Select-value-label {
     color: var(--nav-font-color) !important;
     cursor: pointer;
+    background-color: var(--states-card-bg-color);
+
 }
 
 .states-dropdown .Select-arrow-zone {
     text-align: unset;
+    background-color: var(--states-card-bg-color);
+
 }
 
 .Select-menu{

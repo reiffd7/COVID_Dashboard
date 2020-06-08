@@ -53,7 +53,7 @@ def existing_vs_new_chart(state="US"):
             y=ys,
             text = data['date'],
             name="Existing vs. New Cases",
-            line={"color": "#A5B452"},
+            line={"color": "#FFCF00"},
             customdata = [human_format(x) for x in data['new positive cases (last 7 days)'].to_numpy()],
             hovertemplate=template_new
 

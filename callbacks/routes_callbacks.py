@@ -3,19 +3,22 @@ from dash.dependencies import Input, Output, State
 
 import sys
 sys.path.append('../')
-from layout import desktop_body, cluster_body
+from layout import desktop_body, cluster_body, navbar
 
 
 
 def register_routes_callbacks(app):
 
     @app.callback(
-        Output("page-content", "children"),
+        [Output("navbar-content", "children"),
+        Output("page-content", "children")],
         [Input("url", "pathname")]
     )  
     def display_page(pathname):
         if pathname == '/':
-            return desktop_body
+            return navbar, desktop_body
         elif pathname == '/cluster':
-            return cluster_body
+            return navbar, cluster_body
+        else:
+            return navbar, desktop_body
         

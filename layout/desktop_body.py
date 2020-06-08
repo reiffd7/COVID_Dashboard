@@ -86,7 +86,7 @@ us_maps_tabs = dbc.Card(
                     html.Div(
                         dcc.Tabs(
                             id="choropleth_criteria",
-                            value="tests last week (per capita)",
+                            value="positive case pct rate of change (last 7 days average)",
                             children=[
                                 dcc.Tab(
                                     label="Positive Cases ROC",
@@ -142,23 +142,23 @@ us_maps_tabs = dbc.Card(
 ########################################################################
 
 desktop_body = [
-    dbc.Row(
-        [
-            dbc.Col(
-                dcc.Dropdown(
-                    id="state_picker",
-                    options=STATE_LABELS,
-                    value="United States",
-                    clearable=False,
-                    searchable=False,
-                    className="states-dropdown"
-                ),
-                className="states-dropdown-container",
-                width=2),
-            dbc.Col(
-                html.Img(id="flag", style={'height':'80%', 'width':'80%'}),
-                width=2
-            )]),
+    # dbc.Row(
+    #     [
+    #         dbc.Col(
+    #             dcc.Dropdown(
+    #                 id="state_picker",
+    #                 options=STATE_LABELS,
+    #                 value="United States",
+    #                 clearable=False,
+    #                 searchable=False,
+    #                 className="states-dropdown"
+    #             ),
+    #             className="states-dropdown-container",
+    #             width=2),
+    #         dbc.Col(
+    #             html.Img(id="flag", style={'height':'80%', 'width':'80%'}),
+    #             width=2
+    #         )]),
     dbc.Row(
             dbc.Col(
                 dbc.Row(id="daily-stats", className="top-bar-content"),
@@ -264,7 +264,7 @@ desktop_body = [
                                                 className="bottom-chart-h1-title"
                                             ),
                                             html.Div(
-                                                "# of tests (last 7 days) divided by population",
+                                                "# of positives (last 7 days) divided by # of tests (last 7 days)",
                                                 className="bottom-chart-h2-title"
                                             ),
                                             html.Div(

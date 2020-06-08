@@ -19,7 +19,7 @@ def choropleth_mapbox(state, criteria):
         colorRange = [-1, 1]
         color_scale = "RdBu_r"
     elif criteria == 'positive case pct rate of change (last 7 days average)':
-        colorRange = [-5, 5]
+        colorRange = [-20, 20]
         color_scale = "RdBu_r"
     else:
         colorRange = None
