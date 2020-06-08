@@ -41,6 +41,7 @@ meta_tags = [
 
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+server = app.server
 app.config.suppress_callback_exceptions = True
 
 statesJSON = requests.get('https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/us-states.json').json()
