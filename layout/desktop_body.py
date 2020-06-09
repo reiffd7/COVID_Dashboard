@@ -6,25 +6,27 @@ from dash_table.Format import Format
 
 import sys
 sys.path.append('../')
-from utils import STATE_LABELS
+from utils import STATE_LABELS, COVID_METRICS
 from components import last_updated
 from components import stats_table
 
 
 ################ TABS STYLING ####################
 
-font_size = ".9vw"
+font_size = "2vw"
 color_active = "#F4F4F4"
-color_inactive = "#AEAEAE"
+color_inactive = "#FFA400"
 color_bg = "#2B2118"
 
 tabs_styles = {
     "flex-direction": "row",
 }
 tab_style = {
-    "padding": "1.3vh",
+    "padding": "0.1vh",
     "color": color_inactive,
     "fontSize": font_size,
+    "width": '800px',
+    "height": '50px',
     "backgroundColor": color_bg,
 }
 
@@ -84,39 +86,46 @@ us_maps_tabs = dbc.Card(
             html.Div(
                 [
                     html.Div(
-                        dcc.Tabs(
-                            id="choropleth_criteria",
-                            value="positive case pct rate of change (last 7 days average)",
-                            children=[
-                                dcc.Tab(
-                                    label="Positive Cases ROC",
-                                    value="positive cases rate of change (last 7 days average)",
-                                    className="confirmed-us-map-tab",
-                                    style=tab_style,
-                                    selected_style=tab_selected_style,
-                                ),
-                                dcc.Tab(
-                                    label="Positive % ROC",
-                                    value="positive case pct rate of change (last 7 days average)",
-                                    className="confirmed-us-map-tab",
-                                    style=tab_style,
-                                    selected_style=tab_selected_style,
-                                ),
-                                dcc.Tab(
-                                    label="Testing Per Capita (last 7) ",
-                                    value="tests last week (per capita)",
-                                    className="testing-us-map-tab",
-                                    style=tab_style,
-                                    selected_style=tab_selected_style,
-                                ),
-                            ],
-                            style=tabs_styles,
-                            colors={
-                                "border": None,
-                                "primary": None,
-                                "background": color_bg,
-                            },
-                        )
+                            
+                                dcc.Dropdown(
+                                        id="choropleth_criteria",
+                                        options=[{'label': i, 'value': i} for i in COVID_METRICS],
+                                        value="positive case pct rate of change (last 7 days average)",
+                                        clearable=False,
+                                        searchable=False,
+                                        style=tab_style,
+                                        className='criteria-dropdown'
+                                    ),
+
+                                # dcc.Tab(
+                                #     label="Positive Cases ROC",
+                                #     value="positive cases rate of change (last 7 days average)",
+                                #     className="confirmed-us-map-tab",
+                                #     style=tab_style,
+                                #     selected_style=tab_selected_style,
+                                # ),
+                                # dcc.Tab(
+                                #     label="Positive % ROC",
+                                #     value="positive case pct rate of change (last 7 days average)",
+                                #     className="confirmed-us-map-tab",
+                                #     style=tab_style,
+                                #     selected_style=tab_selected_style,
+                                # ),
+                                # dcc.Tab(
+                                #     label="Testing Per Capita (last 7) ",
+                                #     value="tests last week (per capita)",
+                                #     className="testing-us-map-tab",
+                                #     style=tab_style,
+                                #     selected_style=tab_selected_style,
+                                # ),
+                            # ],
+                            # style=tabs_styles,
+                            # colors={
+                            #     "border": None,
+                            #     "primary": None,
+                            #     "background": color_bg,
+                            # },
+                        
                     ),
                 ],
                 className="d-flex justify-content-between top-bar-us-map-heading-content",

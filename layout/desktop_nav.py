@@ -10,7 +10,7 @@ states_dropdown = dbc.Col(
     dcc.Dropdown(
                     id="state_picker",
                     options=STATE_LABELS,
-                    value="U.S.",
+                    value="United States",
                     clearable=False,
                     searchable=False,
                     className="states-dropdown"

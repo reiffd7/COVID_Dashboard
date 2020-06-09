@@ -11,7 +11,13 @@ stateAbbrevs = {v: k for k,v in stateAbbrevs.items()}
 with open('web_scraping/statePop.json', 'r') as f:
     statePops = json.load(f)
 
-
+COVID_METRICS = ['positive', 'negative', 'death', 'inIcuCurrently', 'onVentilatorCurrently', 'deathIncrease','hospitalizedCurrently', 'new positive cases', 'new negative cases', 
+                        'new positive cases (last 7 days)','new negative cases (last 7 days)', 'tests last week',	
+                        'tests last week (per capita)',	'testing rate of change', 'testing rate of change (last 7 days average)',	
+                        'positive case pct', 'positive case pct (last 7 days average)',	'zero',	'positive case pct rate of change',	
+                        'positive case pct rate of change (last 7 days average)',	'positive cases rate of change',	
+                        'positive cases rate of change (last 7 days average)', 'new deaths (last 7 days)', 'new deaths (per capita)',
+                        'Hospitalized (per capita)', 'In ICU (per capita)', 'On Ventilator (per capita)']
 
 
 class StatesDataFrame(object):
@@ -25,7 +31,7 @@ class StatesDataFrame(object):
         self.dates = self.df['date'].unique()
         self.states = sorted(list(self.df['state'].unique()))
         self.BASIC_COLS = ['date', 'state', 'new positive cases']
-        self.COVID_METRICS = ['positive', 'negative', 'death', 'new positive cases', 'new negative cases', 
+        self.COVID_METRICS = ['positive', 'negative', 'death', 'hospitalizedCurrently', 'new positive cases', 'new negative cases', 
                         'new positive cases (last 7 days)','new negative cases (last 7 days)', 'tests last week',	
                         'tests last week (per capita)',	'testing rate of change', 'testing rate of change (last 7 days average)',	
                         'positive case pct', 'positive case pct (last 7 days average)',	'zero',	'positive case pct rate of change',	
@@ -33,7 +39,7 @@ class StatesDataFrame(object):
                         'positive cases rate of change (last 7 days average)']
 
     def Clean(self):
-        self.df = self.df[['date', 'state', 'fips', 'positive', 'negative', 'death', 'hospitalizedCumulative', 'onVentilatorCumulative']]
+        self.df = self.df[['date', 'state', 'fips', 'positive', 'negative', 'death', 'hospitalizedCurrently', 'inIcuCurrently', 'onVentilatorCurrently', 'deathIncrease']]
         self.df['date'] =  pd.to_datetime(self.df['date'])
         self.df = self.df[~self.df['state'].isin(['MP', 'GU', 'AS', 'PR', 'VI'])]
         
@@ -43,6 +49,11 @@ class StatesDataFrame(object):
         self.df = self.df.reset_index()
         self.df['new positive cases'] = self.df.groupby(['state', 'fips'])['positive'].diff(1).fillna(0)
         self.df['new negative cases'] = self.df.groupby(['state', 'fips'])['negative'].diff(1).fillna(0)
+        self.df['new deaths (last 7 days)'] = self.df.groupby(['state', 'fips'])['deathIncrease'].apply(lambda x: x.rolling(7, min_periods=0).sum())
+        self.df['new deaths (per capita)'] = self.df.apply(lambda x: x['new deaths (last 7 days)']/statePops[stateAbbrevs[x['state']]], axis=1)
+        self.df['Hospitalized (per capita)'] = self.df.apply(lambda x: x['hospitalizedCurrently']/statePops[stateAbbrevs[x['state']]], axis=1)
+        self.df['In ICU (per capita)'] = self.df.apply(lambda x: x['inIcuCurrently']/statePops[stateAbbrevs[x['state']]], axis=1)
+        self.df['On Ventilator (per capita)'] = self.df.apply(lambda x: x['onVentilatorCurrently']/statePops[stateAbbrevs[x['state']]], axis=1)
         self.df['new positive cases (last 7 days)'] = self.df.groupby(['state', 'fips'])['new positive cases'].apply(lambda x: x.rolling(7, min_periods=0).sum())
         self.df['new positive (per capita)'] = self.df.apply(lambda x: x['new positive cases (last 7 days)']/statePops[stateAbbrevs[x['state']]], axis=1)
         self.df['new negative cases (last 7 days)'] = self.df.groupby(['state', 'fips'])['new negative cases'].apply(lambda x: x.rolling(7, min_periods=0).sum())
