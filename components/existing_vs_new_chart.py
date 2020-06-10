@@ -28,7 +28,7 @@ def human_format(num):
 
 def existing_vs_new_chart(state="US"):
 
-    df = StatesDataFrame().df
+    df = pd.read_csv('utils/todays_data.csv')
     df['date'] = pd.DatetimeIndex(df['date']).strftime("%Y-%m-%d")
     if state == 'United States':
         data = df.groupby('date').sum()[['positive', 'new positive cases (last 7 days)']]

@@ -31,7 +31,7 @@ def human_percentage(num):
 
 def positive_pct_chart(state="US"):
 
-    df = StatesDataFrame().df
+    df = pd.read_csv('utils/todays_data.csv')
     df['date'] = pd.DatetimeIndex(df['date']).strftime("%Y-%m-%d")
     df = df[df['date'] >= '2020-04-01']
     if state == 'United States':

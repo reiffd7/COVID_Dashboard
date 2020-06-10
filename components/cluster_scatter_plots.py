@@ -19,7 +19,7 @@ def KmeansClustering(X, nclust=4):
 
 
 def compare_scatter(criteria1, criteria2):
-    df = StatesDataFrame().df
+    df = pd.read_csv('utils/todays_data.csv')
     df = df.fillna(0)
 #     df = df[df['date'] == max(df['date'])]
     last_date = max(df.date)

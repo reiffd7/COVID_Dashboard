@@ -1,6 +1,7 @@
 from dash.dependencies import Input, Output
 import plotly.express as px
 import requests
+import pandas as pd 
 
 import sys
 sys.path.append('../')
@@ -12,7 +13,7 @@ statesJSON = requests.get('https://raw.githubusercontent.com/python-visualizatio
 
 
 def choropleth_mapbox(state, criteria):
-    latest = StatesDataFrame().df
+    latest = pd.read_csv('utils/todays_data.csv')
     latest = latest[latest.date == latest.date.max()]
     latest.rename(columns={criteria:'~'}, inplace=True)
     if criteria == 'positive cases rate of change (last 7 days average)':

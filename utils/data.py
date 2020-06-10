@@ -79,7 +79,8 @@ class StatesDataFrame(object):
         #     self.df = self.df[self.df['state'].isin(states)]
         #     self.dfLeaderboard = self.dfLeaderboard[self.dfLeaderboard['state'].isin(states)]
 
-STATE_LABELS = [{'label': i, 'value': i} for i in StatesDataFrame().states]
+df = pd.read_csv('utils/todays_data.csv')
+STATE_LABELS = [{'label': i, 'value': i} for i in sorted(list(df['state'].unique()))]
 STATE_LABELS.insert(0, {'label': 'U.S.', 'value': 'United States'})
 
 
@@ -145,7 +146,7 @@ COORDS = {"AL": {"lat": 32.806671, "long": -86.79113},
 
 
 def cosine_sim(state):
-    df = StatesDataFrame().df
+    df = pd.read_csv('todays_data.csv')
     df = df.fillna(0)
     df = df[df['date'] == max(df['date'])]
     df.drop(columns=['index', 'date', 'fips'], inplace=True)

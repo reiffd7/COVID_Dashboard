@@ -13,7 +13,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import requests
-from utils import STATE_LABELS
+from utils import STATE_LABELS, StatesDataFrame
 from layout import build_desktop_layout
 
 
@@ -53,7 +53,8 @@ colors = {
     'text': '#7FDBFF'
 }
 
-
+df = StatesDataFrame().df
+df.to_csv('utils/todays_data.csv')
 app.layout = build_desktop_layout
 
 

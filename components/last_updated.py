@@ -9,8 +9,8 @@ today = date.today()
 
 
 try:
-    data = StatesDataFrame().df
-    last_updated = today
+    data = pd.read_csv('utils/todays_data.csv')
+    last_updated = max(data['date'])
 
 except:
     last_updated = 'Error'

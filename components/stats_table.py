@@ -7,7 +7,7 @@ from utils import StatesDataFrame
 
 
 def stats_table(state="US"):
-    df = StatesDataFrame().df
+    df = pd.read_csv('utils/todays_data.csv')
     df['date'] = pd.DatetimeIndex(df['date']).strftime("%Y-%m-%d")
     df = df[['date', 'state', 'new positive cases']]
     df.rename(columns={'date': 'Date', 'state': 'State', 'new positive cases': 'Confirmed (Last 7)'}, inplace=True)

@@ -28,7 +28,7 @@ def human_format(num):
 
 def testing_per_capita_chart(state="US"):
 
-    df = StatesDataFrame().df
+    df = pd.read_csv('utils/todays_data.csv')
     df['date'] = pd.DatetimeIndex(df['date']).strftime("%Y-%m-%d")
     if state == 'United States':
         data = df.groupby('date').sum()[['tests last week']]

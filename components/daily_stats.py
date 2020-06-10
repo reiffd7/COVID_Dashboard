@@ -14,7 +14,7 @@ RED = '#B76D68'
 
 
 def get_daily_stats(state="US"):
-    df = StatesDataFrame().df
+    df = pd.read_csv('utils/todays_data.csv')
     df['date'] = pd.DatetimeIndex(df['date']).strftime("%Y-%m-%d")
 
     if state=='United States':
