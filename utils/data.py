@@ -11,13 +11,13 @@ stateAbbrevs = {v: k for k,v in stateAbbrevs.items()}
 with open('web_scraping/statePop.json', 'r') as f:
     statePops = json.load(f)
 
-COVID_METRICS = ['positive', 'negative', 'death', 'inIcuCurrently', 'onVentilatorCurrently', 'deathIncrease','hospitalizedCurrently', 'new positive cases', 'new negative cases', 
-                        'new positive cases (last 7 days)','new negative cases (last 7 days)', 'tests last week',	
-                        'tests last week (per capita)',	'testing rate of change', 'testing rate of change (last 7 days average)',	
-                        'positive case pct', 'positive case pct (last 7 days average)',	'zero',	'positive case pct rate of change',	
-                        'positive case pct rate of change (last 7 days average)',	'positive cases rate of change',	
-                        'positive cases rate of change (last 7 days average)', 'new deaths (last 7 days)', 'new deaths (per capita)',
-                        'Hospitalized (per capita)', 'In ICU (per capita)', 'On Ventilator (per capita)']
+COVID_METRICS = ['positive', 'negative', 'death', 
+            'inIcuCurrently', 'onVentilatorCurrently', 
+            'hospitalizedCurrently', 'new positive cases', 'new negative cases', 'deathIncrease',  
+            'new positive cases (last 7 days)','new negative cases (last 7 days)', 'tests (last 7 days)', 'new deaths (last 7 days)'
+            'death rate (last 7 days)', 'positive case pct (last 7 days average)', 'tests (last 7 days per capita)', 'new deaths (per capita)',
+            'Hospitalized (per capita)', 'In ICU (per capita)', 'On Ventilator (per capita)', 'testing rate of change (last 7 days average)',	
+            'positive case pct rate of change (last 7 days average)',	'positive cases rate of change (last 7 days average)']
 
 
 class StatesDataFrame(object):
@@ -50,21 +50,23 @@ class StatesDataFrame(object):
         self.df['new positive cases'] = self.df.groupby(['state', 'fips'])['positive'].diff(1).fillna(0)
         self.df['new negative cases'] = self.df.groupby(['state', 'fips'])['negative'].diff(1).fillna(0)
         self.df['new deaths (last 7 days)'] = self.df.groupby(['state', 'fips'])['deathIncrease'].apply(lambda x: x.rolling(7, min_periods=0).sum())
+        
         self.df['new deaths (per capita)'] = self.df.apply(lambda x: x['new deaths (last 7 days)']/statePops[stateAbbrevs[x['state']]], axis=1)
         self.df['Hospitalized (per capita)'] = self.df.apply(lambda x: x['hospitalizedCurrently']/statePops[stateAbbrevs[x['state']]], axis=1)
         self.df['In ICU (per capita)'] = self.df.apply(lambda x: x['inIcuCurrently']/statePops[stateAbbrevs[x['state']]], axis=1)
         self.df['On Ventilator (per capita)'] = self.df.apply(lambda x: x['onVentilatorCurrently']/statePops[stateAbbrevs[x['state']]], axis=1)
         self.df['new positive cases (last 7 days)'] = self.df.groupby(['state', 'fips'])['new positive cases'].apply(lambda x: x.rolling(7, min_periods=0).sum())
         self.df['new positive (per capita)'] = self.df.apply(lambda x: x['new positive cases (last 7 days)']/statePops[stateAbbrevs[x['state']]], axis=1)
+        self.df['death rate (last 7 days)'] = self.df['new deaths (last 7 days)']/self.df['new positive cases (last 7 days)']
         self.df['new negative cases (last 7 days)'] = self.df.groupby(['state', 'fips'])['new negative cases'].apply(lambda x: x.rolling(7, min_periods=0).sum())
-        self.df['tests last week'] = self.df['new positive cases (last 7 days)'] + self.df['new negative cases (last 7 days)']
-        self.df['tests last week (per capita)'] = self.df.apply(lambda x: x['tests last week']/statePops[stateAbbrevs[x['state']]], axis=1)
-        self.df['testing rate of change'] = self.df.groupby(['state', 'fips'])['tests last week (per capita)'].diff(1).fillna(0)
+        self.df['tests (last 7 days)'] = self.df['new positive cases (last 7 days)'] + self.df['new negative cases (last 7 days)']
+        self.df['tests (last 7 days per capita)'] = self.df.apply(lambda x: x['tests (last 7 days)']/statePops[stateAbbrevs[x['state']]], axis=1)
+        self.df['testing rate of change'] = (self.df['tests (last 7 days)'] - self.df.groupby(['state', 'fips'])['tests (last 7 days)'].shift(1).fillna(0))/(self.df.groupby(['state', 'fips'])['tests (last 7 days)'].shift(1).fillna(0))
         self.df['testing rate of change (last 7 days average)'] = self.df.groupby(['state', 'fips'])['testing rate of change'].apply(lambda x: x.rolling(7, min_periods=0).mean()).fillna(0)
-        self.df['positive case pct'] = self.df['new positive cases (last 7 days)']/self.df['tests last week']
-        self.df['positive case pct (last 7 days average)'] = self.df.groupby(['state', 'fips'])['positive case pct'].apply(lambda x: x.rolling(7, min_periods=0).mean()).fillna(0)
+        self.df['positive case pct'] = self.df['new positive cases (last 7 days)']/self.df['tests (last 7 days)']
+        self.df['positive rate (last 7 days average)'] = self.df.groupby(['state', 'fips'])['positive case pct'].apply(lambda x: x.rolling(7, min_periods=0).mean()).fillna(0)
         # self.df['zero'] = 0.0
-        self.df['positive case pct rate of change'] = (self.df['positive case pct'] - self.df.groupby(['state', 'fips'])['positive case pct'].diff(1).fillna(0))/(self.df.groupby(['state', 'fips'])['positive case pct'].diff(1).fillna(0))
+        self.df['positive case pct rate of change'] = self.df['positive case pct'] - self.df.groupby(['state', 'fips'])['positive case pct'].shift(1).fillna(0)
         self.df['positive case pct rate of change (last 7 days average)'] = self.df.groupby(['state', 'fips'])['positive case pct rate of change'].apply(lambda x: x.rolling(7, min_periods=0).mean()).fillna(0)
         self.df['positive cases rate of change'] = (self.df['new positive cases (last 7 days)'] - self.df.groupby(['state', 'fips'])['new positive cases (last 7 days)'].shift(1))/(self.df['positive'] - self.df.groupby(['state', 'fips'])['positive'].shift(1)).fillna(0)
         self.df['positive cases rate of change (last 7 days average)'] = self.df.groupby(['state', 'fips'])['positive cases rate of change'].apply(lambda x: x.rolling(7, min_periods=0).mean()).fillna(0)
@@ -146,11 +148,11 @@ COORDS = {"AL": {"lat": 32.806671, "long": -86.79113},
 
 
 def cosine_sim(state):
-    df = pd.read_csv('todays_data.csv')
+    df = pd.read_csv('utils/todays_data.csv')
     df = df.fillna(0)
     df = df[df['date'] == max(df['date'])]
     df.drop(columns=['index', 'date', 'fips'], inplace=True)
-    df = df[['state','new positive (per capita)', 'tests last week (per capita)', 
+    df = df[['state','new positive (per capita)', 'tests (last 7 days per capita)', 
     'testing rate of change (last 7 days average)', 'positive case pct rate of change (last 7 days average)',
     'positive cases rate of change (last 7 days average)']]
     df = df.set_index('state')

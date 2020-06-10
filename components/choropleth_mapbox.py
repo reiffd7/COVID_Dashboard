@@ -1,4 +1,5 @@
 from dash.dependencies import Input, Output
+import numpy as np
 import plotly.express as px
 import requests
 import pandas as pd 
@@ -15,16 +16,21 @@ statesJSON = requests.get('https://raw.githubusercontent.com/python-visualizatio
 def choropleth_mapbox(state, criteria):
     latest = pd.read_csv('utils/todays_data.csv')
     latest = latest[latest.date == latest.date.max()]
-    latest.rename(columns={criteria:'~'}, inplace=True)
+    
     if criteria == 'positive cases rate of change (last 7 days average)':
         colorRange = [-1, 1]
         color_scale = "RdBu_r"
     elif criteria == 'positive case pct rate of change (last 7 days average)':
-        colorRange = [-20, 20]
+        x = np.percentile(latest[criteria].to_numpy(), 5)
+        xn = np.percentile(latest[criteria].to_numpy(), 95)
+        colorRange = [x, xn]
         color_scale = "RdBu_r"
     else:
-        colorRange = None
+        x = np.percentile(latest[criteria].to_numpy(), 5)
+        xn = np.percentile(latest[criteria].to_numpy(), 95)
+        colorRange = [x, xn]
         color_scale = "GnBu"
+    latest.rename(columns={criteria:'~'}, inplace=True)
     if state == 'United States':
         fig = px.choropleth_mapbox(latest,
             geojson = statesJSON,

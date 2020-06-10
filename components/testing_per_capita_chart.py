@@ -31,19 +31,19 @@ def testing_per_capita_chart(state="US"):
     df = pd.read_csv('utils/todays_data.csv')
     df['date'] = pd.DatetimeIndex(df['date']).strftime("%Y-%m-%d")
     if state == 'United States':
-        data = df.groupby('date').sum()[['tests last week']]
-        data['tests last week (per capita)'] = data['tests last week']/(328000000.0)
+        data = df.groupby('date').sum()[['tests (last 7 days)']]
+        data['tests (last 7 days per capita)'] = data['tests (last 7 days)']/(328000000.0)
         data = data.reset_index().sort_values(by='date')
     else:
         ny = df[df['state'] == 'NY']
         ca = df[df['state'] == 'CA']
         ga = df[df['state'] == 'GA']
         data = df[df['state'] == state]
-        data = data[['date', 'positive', 'tests last week (per capita)', 'tests last week']]
-        ny = ny[['date', 'positive', 'tests last week (per capita)']]
-        ca = ca[['date', 'positive', 'tests last week (per capita)']]
-        ga = ga[['date', 'positive', 'tests last week (per capita)']]
-    ys = data['tests last week (per capita)']
+        data = data[['date', 'positive', 'tests (last 7 days per capita)', 'tests (last 7 days)']]
+        ny = ny[['date', 'positive', 'tests (last 7 days per capita)']]
+        ca = ca[['date', 'positive', 'tests (last 7 days per capita)']]
+        ga = ga[['date', 'positive', 'tests (last 7 days per capita)']]
+    ys = data['tests (last 7 days per capita)']
     xs = data['date']
     
     template_new = "%{customdata} tests over last 7 days on %{text}<extra></extra>"
@@ -55,7 +55,7 @@ def testing_per_capita_chart(state="US"):
             text = data['date'],
             name="Existing vs. New Cases",
             line={"color": "#00916E"},
-            customdata = [human_format(x) for x in data['tests last week'].to_numpy()],
+            customdata = [human_format(x) for x in data['tests (last 7 days)'].to_numpy()],
             hovertemplate=template_new
 
         )

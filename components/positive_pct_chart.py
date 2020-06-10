@@ -35,20 +35,20 @@ def positive_pct_chart(state="US"):
     df['date'] = pd.DatetimeIndex(df['date']).strftime("%Y-%m-%d")
     df = df[df['date'] >= '2020-04-01']
     if state == 'United States':
-        data = df.groupby('date').sum()[['tests last week', 'new positive cases (last 7 days)']]
-        data['positive case pct'] = data['new positive cases (last 7 days)']/data['tests last week']
-        data['positive case pct (last 7 days average)'] = data['positive case pct'].rolling(7, min_periods=0).mean().fillna(0)
+        data = df.groupby('date').sum()[['tests (last 7 days)', 'new positive cases (last 7 days)']]
+        data['positive rate'] = data['new positive cases (last 7 days)']/data['tests (last 7 days)']
+        data['positive rate (last 7 days average)'] = data['positive rate'].rolling(7, min_periods=0).mean().fillna(0)
         data = data.reset_index().sort_values(by='date')
     else:
         ny = df[df['state'] == 'NY']
         ca = df[df['state'] == 'CA']
         ga = df[df['state'] == 'GA']
         data = df[df['state'] == state]
-        data = data[['date', 'positive case pct (last 7 days average)']]
-        ny = ny[['date', 'positive case pct (last 7 days average)']]
-        ca = ca[['date', 'positive case pct (last 7 days average)']]
-        ga = ga[['date', 'positive case pct (last 7 days average)']]
-    ys = data['positive case pct (last 7 days average)']
+        data = data[['date', 'positive rate (last 7 days average)']]
+        ny = ny[['date', 'positive rate (last 7 days average)']]
+        ca = ca[['date', 'positive rate (last 7 days average)']]
+        ga = ga[['date', 'positive rate (last 7 days average)']]
+    ys = data['positive rate (last 7 days average)']
     xs = data['date']
     
     template_new = "%{customdata} tests over last 7 days on %{text}<extra></extra>"
@@ -60,7 +60,7 @@ def positive_pct_chart(state="US"):
             text = data['date'],
             name="Positive pct",
             line={"color": "#FF8552"},
-            customdata = [human_percentage(x) for x in data['positive case pct (last 7 days average)'].to_numpy()],
+            customdata = [human_percentage(x) for x in data['positive rate (last 7 days average)'].to_numpy()],
             hovertemplate=template_new
 
         )
