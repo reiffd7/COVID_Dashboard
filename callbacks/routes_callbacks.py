@@ -4,10 +4,13 @@ from dash.dependencies import Input, Output, State
 import sys
 sys.path.append('../')
 from layout import desktop_body, cluster_body, navbar
+from utils import StatesDataFrame
 
 
 
 def register_routes_callbacks(app):
+    df = StatesDataFrame().df
+    df.to_csv('utils/todays_data.csv')
 
     @app.callback(
         [Output("navbar-content", "children"),

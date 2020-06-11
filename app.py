@@ -53,8 +53,7 @@ colors = {
     'text': '#7FDBFF'
 }
 
-df = StatesDataFrame().df
-df.to_csv('utils/todays_data.csv')
+
 app.layout = build_desktop_layout
 
 
