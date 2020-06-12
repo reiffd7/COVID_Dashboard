@@ -9,8 +9,7 @@ from utils import StatesDataFrame
 
 
 def register_routes_callbacks(app):
-    df = StatesDataFrame().df
-    df.to_csv('utils/todays_data.csv')
+    
 
     @app.callback(
         [Output("navbar-content", "children"),

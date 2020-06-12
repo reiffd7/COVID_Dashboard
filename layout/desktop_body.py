@@ -213,7 +213,9 @@ desktop_body = [
                                                 className="bottom-chart-h1-title"
                                             ),
                                             html.Div(
-                                                "Since 1/22",
+                                                ["Since 1/22 -- ",
+                                                html.A("Learn More", href='https://towardsdatascience.com/data-visualization-of-covid-19-in-the-us-1881938aaf17', style={'color': '#468C98'})],
+
                                                 className="bottom-chart-h2-title"
                                             ),
                                             html.Div(
