@@ -9,7 +9,7 @@ today = date.today()
 
 
 try:
-    data = pd.read_csv('utils/todays_data.csv')
+    data = pd.read_csv('https://covidtracking.com/api/v1/states/daily.csv', parse_dates=['date']).sort_index()
     last_updated = max(data['date'])
 
 except:
