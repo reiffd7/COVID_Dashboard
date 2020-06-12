@@ -18,6 +18,9 @@ color_inactive = "#AEAEAE"
 color_bg = "#2B2118"
 
 def register_desktop_callbacks(app):
+    df = StatesDataFrame().df
+    df.to_csv('utils/todays_data.csv')
+
     @app.callback(
         Output('flag', 'src'),
         [Input("state_picker", "value")])
