@@ -15,9 +15,24 @@ COVID_METRICS = ['positive', 'negative', 'death',
             'inIcuCurrently', 'onVentilatorCurrently', 
             'hospitalizedCurrently', 'new positive cases', 'new negative cases', 'deathIncrease',  
             'new positive cases (last 7 days)','new negative cases (last 7 days)', 'tests (last 7 days)', 'new deaths (last 7 days)'
-            'death rate (last 7 days)', 'positive case pct (last 7 days average)', 'tests (last 7 days per capita)', 'new deaths (per capita)',
-            'Hospitalized (per capita)', 'In ICU (per capita)', 'On Ventilator (per capita)', 'testing rate of change (last 7 days average)',	
+            'death rate (last 7 days)', 'positive rate (last 7 days average)', 'tests (last 7 days per capita)', 'new deaths (per capita)',
+            'new positive (per capita)', 'Hospitalized (per capita)', 'In ICU (per capita)', 'On Ventilator (per capita)', 'testing rate of change (last 7 days average)',	
             'positive case pct rate of change (last 7 days average)',	'positive cases rate of change (last 7 days average)']
+
+DYNAMICS = ['state','testing rate of change (last 7 days average)',	
+            'positive case pct rate of change (last 7 days average)',	'positive cases rate of change (last 7 days average)']
+
+PER_CAPITA = ['state','tests (last 7 days per capita)', 'new deaths (per capita)', 'death rate (last 7 days)', 'positive rate (last 7 days average)',
+            'new positive (per capita)', 'Hospitalized (per capita)', 'In ICU (per capita)', 'On Ventilator (per capita)']
+
+ABSOLUTE_RECENT = ['state','inIcuCurrently', 'onVentilatorCurrently', 
+            'hospitalizedCurrently', 'new positive cases', 'new negative cases', 'deathIncrease',  
+            'new positive cases (last 7 days)','new negative cases (last 7 days)', 'tests (last 7 days)', 'new deaths (last 7 days)']
+
+ABSOLUTE_TOTAL = ['state','positive', 'negative', 'death']
+
+
+
 
 
 class StatesDataFrame(object):
@@ -147,14 +162,21 @@ COORDS = {"AL": {"lat": 32.806671, "long": -86.79113},
 
 
 
-def cosine_sim(state):
+def cosine_sim(state, sim_criteria):
     df = pd.read_csv('utils/todays_data.csv')
     df = df.fillna(0)
     df = df[df['date'] == max(df['date'])]
     df.drop(columns=['index', 'date', 'fips'], inplace=True)
-    df = df[['state','new positive (per capita)', 'tests (last 7 days per capita)', 
-    'testing rate of change (last 7 days average)', 'positive case pct rate of change (last 7 days average)',
-    'positive cases rate of change (last 7 days average)']]
+    if sim_criteria == 'dynamics':
+        df = df[DYNAMICS]
+    if sim_criteria == 'per capita':
+        df = df[PER_CAPITA]
+    if sim_criteria == 'absolute (recent)':
+        df = df[ABSOLUTE_RECENT]
+    if sim_criteria == 'absolute (total)':
+        df = df[ABSOLUTE_TOTAL]
+
+    
     df = df.set_index('state')
     sim_list = []
     states = df.index.to_numpy()

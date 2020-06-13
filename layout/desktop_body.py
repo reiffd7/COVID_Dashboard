@@ -23,9 +23,18 @@ tabs_styles = {
 }
 tab_style = {
     "padding": "0.1vh",
-    "color": color_inactive,
+    # "color": color_inactive,
     "fontSize": font_size,
     "width": '800px',
+    "height": '50px',
+    "backgroundColor": color_bg,
+}
+
+tab_style2 = {
+    "padding": "0.1vh",
+    # "color": color_inactive,
+    "fontSize": font_size,
+    "width": '200px',
     "height": '50px',
     "backgroundColor": color_bg,
 }
@@ -62,7 +71,23 @@ stats_tabs = dbc.Card(
 ########################################################################
 sim_tabs = dbc.Card(
     [
-        dbc.CardBody(id="sim-table", className="stats-table-col",),
+        dbc.CardBody(
+            [   html.Div(
+                            dcc.Dropdown(
+                                id="similarity_criteria",
+                                options=[{'label': 'dynamics', 'value': 'dynamics'},
+                                            {'label': 'per capita', 'value': 'per capita'},
+                                            {'label': 'absolute (recent)', 'value': 'absolute (recent)'},
+                                            {'label': 'absolute (total)', 'value': 'absolute (total)'}],
+                                value='dynamics',
+                                clearable=False,
+                                searchable = False,
+                                style=tab_style2,
+                                className='criteria-dropdown'
+                            )
+            ),
+                html.Div(id="sim-table")
+            ], className="stats-table-col"),
         dbc.CardFooter(  # html.P(
             html.A("Explore Cluster Plots", href='/cluster'),
             className="right-tabs-last-updated-text",

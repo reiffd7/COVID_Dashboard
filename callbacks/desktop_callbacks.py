@@ -53,8 +53,8 @@ def register_desktop_callbacks(app):
                 {"name": "Date", "id": "Date"},
                 {"name": "State", "id": "State", "format": Format(group=",")},
                 {
-                    "name": 'Confirmed (Last 7)',
-                    "id": 'Confirmed (Last 7)',
+                    "name": 'New Confirmed',
+                    "id": 'New Confirmed',
                     "type": "numeric",
                     "format": Format(group=",")
                 }
@@ -117,13 +117,14 @@ def register_desktop_callbacks(app):
 
     @app.callback(
         Output("sim-table", "children"),
-        [Input("state_picker", "value")]
+        [Input("state_picker", "value"),
+        Input("similarity_criteria", "value")]
     )
-    def sim_tab_content(state):
+    def sim_tab_content(state, sim_criteria):
         if state == 'United States':
             return None
         else:
-            df = cosine_sim(state)
+            df = cosine_sim(state, sim_criteria)
             df = df.reset_index().drop(columns=['index']).reset_index()
             df['index'] = df['index'] +1
             df.drop(columns=['similarity'], inplace=True)

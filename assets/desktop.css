@@ -278,6 +278,7 @@
     width: 20%;
     background-color: var(--states-card-bg-color);
     line-height: .7;
+    border-color: #2B2118;
 }
 
 #flags{
@@ -295,6 +296,17 @@
 
 .states-dropdown .Select-control {
     background-color: var(--states-card-bg-color);
+    border-color: transparent;
+    overflow: auto;
+    box-shadow: none !important;
+    border-color: transparent !important;
+    /* display: inline !important; */
+    font-size: 2rem;
+    max-width: 15%;
+    margin-bottom: auto;
+}
+
+.criteria-dropdown .Select-control {
     border-color: transparent;
     overflow: auto;
     box-shadow: none !important;
@@ -342,9 +354,10 @@
 }
 
 .criteria-dropdown .Select-menu-outer {
+    border-color: #2B2118;
     background-color: var(--card-bg-color);
     color: var(--font-color-confirmed);
-    border-color: transparent;
+    /* border-color: transparent; */
     font-size: 1rem;
     z-index: 1000000;
     width:100%;
@@ -359,7 +372,8 @@
 }
 
 .criteria-dropdown .Select-control .Select-value-label {
-    color: var(--font-color-confirmed) !important;
+    border-color: #2B2118;
+    color: var(--nav-font-color) !important;
     cursor: pointer;
     background-color: var(--card-bg-color);
 

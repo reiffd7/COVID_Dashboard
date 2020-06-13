@@ -67,7 +67,7 @@ def daily_stats(state="US"):
                     dbc.CardBody(
                         [
                             html.P(
-                                f"+ {value[1]:,d} new in last week",
+                                f"+ {value[1]:,d}",
                                 className=f"top-bar-perc-change-confirmed",
                             ),
                             html.H1(
